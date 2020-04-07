@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+{% load custom_tag %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}模板{% endblock %}</title>
+{#    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">#}
+    {% block css %} {% endblock css %}
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            {% block menu %}
+            {% menu_html request %}   {# 用inclusion_tag生成的menu_html #}
+            {% endblock menu %}
+        </div>
+        <div class="col-8">
+            {% block content %}
+                content
+            {% endblock content %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
