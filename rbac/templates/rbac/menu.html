@@ -1,24 +1,72 @@
-{% for i in menu_data %}
-    {{ i }}
+<div class="panel-group" id="accordion">
+
+{% for l1 in menu_data %}
+
+    {% if l1.status %}
+    <div class="panel panel-default">
+
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">
+				{{ l1.title }}
+            </a>
+        </h4>
+
+        <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">
+            {% for l2 in l1.children %}
+                {% if l2.status %}
+                    {% if l2.children %}
+
+                        <h5 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                                {{ l2.title }}
+                            </a>
+                        </h5>
+                        <div id="collapse{{ forloop.parentloop.counter }}{{ forloop.counter }}" class="panel-collapse collapse">
+                            {% for l3 in l2.children %}
+                                <div class="panel-body">
+                                    <a href="{{ l3.url }}">{{ l3.title }}</a>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    {% else %}
+                        <div class="panel-body">
+                            <a href="{{ l2.url }}">{{ l2.title }}</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+    </div>
+
+    {% endif %}
+
 {% endfor %}
 
-{#{% for k,item in menu_dict.items %}#}
-{#    <div class="item">#}
-{#        <div class="item-title"> {{ item.menu_title }} </div>#}
-{#        {% if item.active %}#}
-{#            <div class="item-permission">#}
-{#        {% else %}#}
-{#            <div class="item-permission hide">#}
-{#        {% endif %}#}
+</div>
+
+{#{% for l1 in menu_data %}#}
+{#    {% if l1.status %}#}
+{#    <div class="menu-l1">#}
+{#        {{ l1.title }}#}
 {##}
-{#            {% for v in item.children %}#}
-{#                {% if v.active %}#}
-{#                    <a href="{{ v.url }}" class="active">{{ v.title }}</a>#}
-{#                {% else %}#}
-{#                    <a href="{{ v.url }}">{{ v.title }}</a>#}
+{#        <div class="menu-l2">#}
+{#            {% for l2 in l1.children %}#}
+{#                {% if l2.status %}#}
+{#                    {% if l2.children %}#}
+{#                        <div class="menu-l3">{{ l2.title }}</div>#}
+{#                        {% for l3 in l2.children %}#}
+{#                            <a href="{{ l3.url }}">{{ l3.title }}</a><br>#}
+{#                        {% endfor %}#}
+{#                    {% else %}#}
+{#                        <a href="{{ l2.url }}">{{ l2.title }}</a><br>#}
+{#                    {% endif %}#}
 {#                {% endif %}#}
 {#            {% endfor %}#}
-{#            </div>#}
-{#            </div>#}
+{#        </div>#}
+{##}
 {#    </div>#}
+{#    {% endif %}#}
 {#{% endfor %}#}
+

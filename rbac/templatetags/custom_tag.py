@@ -60,5 +60,5 @@ def menu_html(request):
             parent_menu['children'].append(all_menu_dict[i])
         else:
             menu_data.append(all_menu_dict[i])
-
+    # print(menu_data)
     return {'menu_data':menu_data}

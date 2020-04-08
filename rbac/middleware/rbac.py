@@ -26,8 +26,8 @@ class RbacMiddleware(MiddlewareMixin):
     def process_request(self, request):
         request_url = request.path_info
         permission_url = request.session.get(settings.SESSION_PERMISSION_URL_KEY)
-        print('访问url',request_url)
-        print('权限--',permission_url)
+        # print('访问url',request_url)
+        # print('权限--',permission_url)
         # 如果请求url在白名单，放行
         for url in settings.SAFE_URL:
             if re.match(url, request_url):
