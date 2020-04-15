@@ -14,14 +14,14 @@
 
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="menu">
+            <div class="menu" style="width: 20%;float: left">
                 {% block menu %}
                     {% menu_html request %}   {# 用inclusion_tag生成的menu_html #}
                 {% endblock menu %}
             </div>
-            <div class="content">
+            <div class="content" style="width: 80%;float: left">
                 {% block content %}
 
                 {% endblock content %}

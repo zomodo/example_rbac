@@ -1,4 +1,10 @@
 {% extends 'rbac/base.html' %}
+
 {% block content %}
-    <p>m3</p>
+
+    <p>m3的action有：</p>
+    {% for act in action %}
+        <p>{{ act }}</p>
+    {% endfor %}
+
 {% endblock %}

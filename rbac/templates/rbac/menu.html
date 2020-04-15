@@ -3,42 +3,79 @@
 {% for l1 in menu_data %}
 
     {% if l1.status %}
-    <div class="panel panel-default">
+        {% if l1.open %}
+            <div class="panel panel-default">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">
+                        {{ l1.title }}
+                    </a>
+                </h4>
 
-        <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">
-				{{ l1.title }}
-            </a>
-        </h4>
+                <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse in">
+                    {% for l2 in l1.children %}
+                        {% if l2.status %}
+                            {% if l2.children %}
 
-        <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">
-            {% for l2 in l1.children %}
-                {% if l2.status %}
-                    {% if l2.children %}
-
-                        <h5 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.parentloop.counter }}{{ forloop.counter }}">
-                                {{ l2.title }}
-                            </a>
-                        </h5>
-                        <div id="collapse{{ forloop.parentloop.counter }}{{ forloop.counter }}" class="panel-collapse collapse">
-                            {% for l3 in l2.children %}
-                                <div class="panel-body">
-                                    <a href="{{ l3.url }}">{{ l3.title }}</a>
+                                <h5 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                                        {{ l2.title }}
+                                    </a>
+                                </h5>
+                                <div id="collapse{{ forloop.parentloop.counter }}{{ forloop.counter }}" class="panel-collapse collapse">
+                                    {% for l3 in l2.children %}
+                                        <div class="panel-body">
+                                            <a href="{{ l3.url }}">{{ l3.title }}</a>
+                                        </div>
+                                    {% endfor %}
                                 </div>
-                            {% endfor %}
-                        </div>
 
-                    {% else %}
-                        <div class="panel-body">
-                            <a href="{{ l2.url }}">{{ l2.title }}</a>
-                        </div>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-        </div>
+                            {% else %}
+                                <div class="panel-body">
+                                    <a href="{{ l2.url }}">{{ l2.title }}</a>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
 
-    </div>
+            </div>
+        {% else %}
+            <div class="panel panel-default">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">
+                        {{ l1.title }}
+                    </a>
+                </h4>
+
+                <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">
+                    {% for l2 in l1.children %}
+                        {% if l2.status %}
+                            {% if l2.children %}
+
+                                <h5 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                                        {{ l2.title }}
+                                    </a>
+                                </h5>
+                                <div id="collapse{{ forloop.parentloop.counter }}{{ forloop.counter }}" class="panel-collapse collapse">
+                                    {% for l3 in l2.children %}
+                                        <div class="panel-body">
+                                            <a href="{{ l3.url }}">{{ l3.title }}</a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                            {% else %}
+                                <div class="panel-body">
+                                    <a href="{{ l2.url }}">{{ l2.title }}</a>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% endif %}
 
     {% endif %}
 

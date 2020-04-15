@@ -1,4 +1,5 @@
 from .models import User, Menu
+from django.conf import settings
 
 def init_permission(request, user_obj):
     """
@@ -13,6 +14,7 @@ def init_permission(request, user_obj):
     permission_url_list = []  # 用户权限url列表，--> 用于中间件验证用户权限
     permission_menu_list = []  # 用户权限url所属菜单列表 [{"title":xxx, "url":xxx, "menu_id": xxx},{},]
 
+
     for item in permission_item_list:
         permission_url_list.append(item['permissions__url'])
         if item['permissions__menu_id']:
@@ -25,9 +27,19 @@ def init_permission(request, user_obj):
     menu_list = list(Menu.objects.values('id', 'title', 'parent_id'))
     # 注：session在存储时，会先对数据进行序列化，因此对于Queryset对象写入session， 加list()转为可序列化对象
 
-    from django.conf import settings
+    # 取出每个url的action
+    permission_action_list=user_obj.roles.values('permissions__url','permissions__action__code').distinct()
+    permission_action_dict = {}         # 每个url的action
+    for item in permission_action_list:
+        if item['permissions__url'] in permission_action_dict:
+            permission_action_dict[item['permissions__url']].append(item['permissions__action__code'])
+        else:
+            permission_action_dict[item['permissions__url']] = [item['permissions__action__code'], ]
+
 
     request.session[settings.SESSION_PERMISSION_URL_KEY] = permission_url_list
+
+    request.session[settings.SESSION_PERMISSION_ACTION_KEY] = permission_action_dict
 
     # 保存 权限菜单 和所有 菜单
     request.session[settings.SESSION_MENU_KEY] = {

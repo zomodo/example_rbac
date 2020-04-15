@@ -1,8 +1,10 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.urls import reverse
+from django.conf import settings
+
 from rbac import models
 from .forms import LoginForm
-import re
+
 # Create your views here.
 # RBAC（Role-Based Access Control，基于角色的访问控制）
 
@@ -36,25 +38,45 @@ def login(request):
 
 
 def logout(request):
-    request.session.clear()
+    request.session.flush()
     return redirect(reverse('login'))
 
 def index(request):
-    return render(request,'rbac/index.html')
+    path_action=request.session.get(settings.SESSION_PERMISSION_ACTION_KEY)
+    path=request.path
+    action=path_action[path]
+    context={'action':action}
+    return render(request,'rbac/index.html',context)
 
 
 def m1(request):
-    return render(request,'rbac/m1.html')
+    path_action=request.session.get(settings.SESSION_PERMISSION_ACTION_KEY)
+    path=request.path
+    action=path_action[path]
+    context={'action':action}
+    return render(request,'rbac/m1.html',context)
 
 
 def m2(request):
-    return render(request,'rbac/m2.html')
+    path_action=request.session.get(settings.SESSION_PERMISSION_ACTION_KEY)
+    path=request.path
+    action=path_action[path]
+    context={'action':action}
+    return render(request,'rbac/m2.html',context)
 
 
 def m3(request):
-    return render(request,'rbac/m3.html')
+    path_action=request.session.get(settings.SESSION_PERMISSION_ACTION_KEY)
+    path=request.path
+    action=path_action[path]
+    context={'action':action}
+    return render(request,'rbac/m3.html',context)
 
 
 def m4(request):
-    return render(request,'rbac/m4.html')
+    path_action=request.session.get(settings.SESSION_PERMISSION_ACTION_KEY)
+    path=request.path
+    action=path_action[path]
+    context={'action':action}
+    return render(request,'rbac/m4.html',context)
 
